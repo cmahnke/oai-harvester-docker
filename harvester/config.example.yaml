@@ -1,0 +1,4 @@
+oai_url: https://www.kenom.de/oai/
+metadata_prefix: lido
+set: institution:DE-MUS-062622
+target_dir: ../../data/
