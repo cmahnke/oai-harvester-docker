@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:experimental
 
-FROM ghcr.io/cmahnke/oai-harvester-docker/converter:latest
+FROM ghcr.io/cmahnke/oai-harvester-docker/harvester:latest
 
 LABEL maintainer="cmahnke@gmail.com"
 LABEL org.opencontainers.image.source=https://github.com/cmahnke/oai-harvester-docker
