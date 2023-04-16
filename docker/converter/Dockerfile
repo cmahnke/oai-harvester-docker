@@ -3,6 +3,7 @@
 FROM ghcr.io/cmahnke/oai-harvester-docker/converter:latest
 
 LABEL maintainer="cmahnke@gmail.com"
+LABEL org.opencontainers.image.source=https://github.com/cmahnke/oai-harvester-docker
 
 ENV REQ_BUILD="" \
     REQ_RUN="busybox openjdk17-jre jq sed curl" \
