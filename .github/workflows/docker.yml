@@ -39,7 +39,7 @@ jobs:
         with:
           context: .
           file: ./docker/harvester/Dockerfile
-          push: true
+          push: false
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
