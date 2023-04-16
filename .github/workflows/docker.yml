@@ -1,4 +1,4 @@
-name: Kenom cache warmer GitHub Packages
+name: OAI PMH Harvester GitHub Packages
 
 on:
   push:
