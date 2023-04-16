@@ -26,14 +26,22 @@ jobs:
         uses: docker/setup-buildx-action@v2.5.0
         with:
           driver-opts: env.BUILDKIT_STEP_LOG_MAX_SIZE=10485760
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@507c2f2dc502c992ad446e3d7a5dfbe311567a96
+        with:
+          images: |
+            ghcr.io/${{ github.repository }}/harvester
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
       - name: Push to GitHub Packages
         uses: docker/build-push-action@v4.0.0
         with:
           context: .
           file: ./docker/harvester/Dockerfile
           push: true
-          tags: |
-            ghcr.io/${{ github.repository }}/harvester:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
   build_converter:
     name: Push to GitHub Packages
@@ -56,12 +64,19 @@ jobs:
         uses: docker/setup-buildx-action@v2.5.0
         with:
           driver-opts: env.BUILDKIT_STEP_LOG_MAX_SIZE=10485760
-
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@507c2f2dc502c992ad446e3d7a5dfbe311567a96
+        with:
+          images: |
+            ghcr.io/${{ github.repository }}/converter
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
       - name: Push to GitHub Packages
         uses: docker/build-push-action@v4.0.0
         with:
           context: .
           file: ./docker/converter/Dockerfile
           push: true
-          tags: |
-            ghcr.io/${{ github.repository }}/converter:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
