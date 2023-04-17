@@ -1,5 +1,8 @@
 name: OAI PMH Harvester GitHub Packages
 
+permissions:
+  packages: write
+
 on:
   push:
     branches:
