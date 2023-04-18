@@ -26,6 +26,16 @@ if [ -w  "$HARVESTER_CONF" ] ; then
         TARGET_DIR_ESCAPED=$(echo $TARGET_DIR | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')
         sed -i "s/target_dir: .*/target_dir: $TARGET_DIR_ESCAPED/g" "$HARVESTER_CONF"
     fi
+
+    if [ -n "$USER" ] ; then
+        USER_ESCAPED=$(echo $USER | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')
+        sed -i "s/user: .*/user: $USER_ESCAPED/g" "$HARVESTER_CONF"
+    fi
+
+    if [ -n "$PASS" ] ; then
+        PASS_ESCAPED=$(echo $PASS | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')
+        sed -i "s/pass: .*/pass: $PASS_ESCAPED/g" "$HARVESTER_CONF"
+    fi
 else
     echo "$HARVESTER_CONF isn't writeable, might be mounted"
 fi

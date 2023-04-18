@@ -37,6 +37,8 @@ Pass configuration via environment, also make sure too provide a data directory:
 docker run -it -e OAI_URL=https://www.kenom.de/oai/ -e METADATA_PREFIX=lido -e SET=institution:DE-MUS-062622 -e TARGET_DIR=/data --mount type=bind,source="$(pwd)"/data,target=/data
 ```
 
+See table below for possible values.
+
 ## Configuration file
 
 | Name            | Value                                                              |
@@ -45,6 +47,10 @@ docker run -it -e OAI_URL=https://www.kenom.de/oai/ -e METADATA_PREFIX=lido -e S
 | metadata_prefix | The matadata prefix (format) to use                                |
 | set             | The requested metadata set                                         |
 | target_dir      | The direcory inside the container to save files to, can be mounted |
+| user            | Username for authentification                                      |
+| pass            | Password for authentification                                      |
+
+These configuration settings can also be passed via env in upper case.
 
 # Building prepopulated volumes
 

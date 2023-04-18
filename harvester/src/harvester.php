@@ -5,6 +5,10 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use GuzzleRetry\GuzzleRetryMiddleware;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\HandlerStack;
+use webignition\Guzzle\Middleware\HttpAuthentication\AuthorizationType;
+use webignition\Guzzle\Middleware\HttpAuthentication\AuthorizationHeader;
+use webignition\Guzzle\Middleware\HttpAuthentication\CredentialsFactory;
+use webignition\Guzzle\Middleware\HttpAuthentication\HttpAuthenticationMiddleware;
 use Symfony\Component\Yaml\Yaml;
 use Phpoaipmh\Client;
 use Phpoaipmh\Endpoint;
@@ -14,6 +18,16 @@ $config = Yaml::parseFile(__DIR__ . '/../config.yaml');
 
 $stack = HandlerStack::create();
 $stack->push(GuzzleRetryMiddleware::factory());
+
+if (trim($config['user']) != '' && trim($config['user']) != '') {
+    $httpAuthenticationMiddleware = new HttpAuthenticationMiddleware();
+    $basicCredentials = CredentialsFactory::createBasicCredentials(trim($config['user']), trim($config['user']));
+    $httpAuthenticationMiddleware->setType(AuthorizationType::BASIC);
+    $httpAuthenticationMiddleware->setCredentials($credentials);
+    $httpAuthenticationMiddleware->setHost(parse_url($config['oai_url'], PHP_URL_HOST));
+    $stack->push($httpAuthenticationMiddleware, 'http-auth');
+}
+
 $guzzleClient = new GuzzleClient(['handler' => $stack]);
 $guzzleAdapter = new \Phpoaipmh\HttpAdapter\GuzzleAdapter($guzzleClient);
 
