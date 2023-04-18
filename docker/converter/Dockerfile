@@ -17,7 +17,6 @@ RUN --mount=target=/mnt/build-context \
 # Prepare to install dependencies
     apk --update upgrade && \
     apk add --no-cache $REQ_BUILD $REQ_RUN && \
-    set -x && \
     mkdir -p $SAXON_DIR $DATA_DIR $XSLT_DIR && \
 # Get Saxon
     SAXON_FILE=$(basename $SAXON_URL) && \
