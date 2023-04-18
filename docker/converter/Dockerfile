@@ -17,7 +17,7 @@ RUN --mount=target=/mnt/build-context \
 # Prepare to install dependencies
     apk --update upgrade && \
     apk add --no-cache $REQ_BUILD $REQ_RUN && \
-    mkdir -p $SAXON_DIR $DATA_DIR $XSLT_DIR && \
+    mkdir -p $SAXON_DIR $DATA_DIR $XSLT_DIR /usr/local/sbin/ && \
 # Get Saxon
     SAXON_FILE=$(basename $SAXON_URL) && \
     RESOLVER_FILE=$(basename $RESOLVER_URL) && \
@@ -27,7 +27,7 @@ RUN --mount=target=/mnt/build-context \
     ln -s $SAXON_DIR/$RESOLVER_FILE $SAXON_DIR/xmlresolver.jar && \
 # Copy files
     cp -r /mnt/build-context/docker/converter/xslt/* $XSLT_DIR && \
-    cp /mnt/build-context/docker/converter/scripts/cleanup.sh /usr/local/sbin && \
+    cp /mnt/build-context/docker/converter/scripts/cleanup.sh /usr/local/sbin/ && \
 # Copy entrypoint
     cp /mnt/build-context/docker/converter/entrypoint.d/entrypoint.sh / && \
 # Cleanup
