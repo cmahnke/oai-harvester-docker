@@ -5,8 +5,8 @@ FROM ghcr.io/cmahnke/oai-harvester-docker/harvester:latest
 LABEL maintainer="cmahnke@gmail.com"
 LABEL org.opencontainers.image.source=https://github.com/cmahnke/oai-harvester-docker
 
-ENV REQ_BUILD="" \
-    REQ_RUN="busybox openjdk17-jre jq sed curl" \
+ENV REQ_BUILD="gettext" \
+    REQ_RUN="openjdk17-jre jq sed curl" \
     SAXON_URL="https://repo1.maven.org/maven2/net/sf/saxon/Saxon-HE/12.1/Saxon-HE-12.1.jar" \
     RESOLVER_URL="https://repo1.maven.org/maven2/org/xmlresolver/xmlresolver/5.1.2/xmlresolver-4.1.2.jar" \
     SAXON_DIR="/opt/saxon" \
@@ -16,7 +16,7 @@ ENV REQ_BUILD="" \
 RUN --mount=target=/mnt/build-context \
 # Prepare to install dependencies
     apk --update upgrade && \
-    apk add --no-cache $REQ_BUILD $REQ_RUN && \
+    apk add --no-cache busybox $REQ_BUILD $REQ_RUN && \
     mkdir -p $SAXON_DIR $DATA_DIR $XSLT_DIR /usr/local/sbin/ && \
 # Get Saxon
     SAXON_FILE=$(basename $SAXON_URL) && \
@@ -28,6 +28,8 @@ RUN --mount=target=/mnt/build-context \
 # Copy files
     cp -r /mnt/build-context/docker/converter/xslt/* $XSLT_DIR && \
     cp /mnt/build-context/docker/converter/scripts/cleanup.sh /usr/local/sbin/ && \
+    envsubst < /mnt/build-context/docker/converter/scripts/cleanup.sh > /usr/local/sbin/cleanup.sh && \
+    echo 'apk del $REQ_RUN $REQ_BUILD' >> /usr/local/sbin/cleanup.sh && \
 # Copy entrypoint
     cp /mnt/build-context/docker/converter/entrypoint.d/entrypoint.sh / && \
 # Cleanup
