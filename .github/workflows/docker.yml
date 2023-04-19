@@ -18,13 +18,13 @@ jobs:
         with:
           submodules: true
           fetch-depth: 0
-      - name: Change dir
-        run: cd harvester
       - name: Run Composer
+        working-directory: ./harvester
         uses: php-actions/composer@v6
         with:
           php_version: "latest"
       - name: Run linter
+        working-directory: ./harvester
         uses: php-actions/composer@v6
         with:
           php_version: "latest"
