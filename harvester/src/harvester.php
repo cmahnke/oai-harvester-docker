@@ -36,6 +36,10 @@ if (getenv("OAI_PASS")) {
     $config['pass'] = getenv("OAI_PASS");
 }
 
+if (getenv("VERBOSE")) {
+    $config['verbose'] = getenv("VERBOSE");
+}
+
 if (trim($config['user']) != '' && trim($config['pass']) != '') {
     $httpAuthenticationMiddleware = new HttpAuthenticationMiddleware(new HostComparer());
     $credentials = CredentialsFactory::createBasicCredentials(trim($config['user']), trim($config['pass']));
@@ -76,5 +80,9 @@ foreach ($harvester->listRecords($config['metadata_prefix'], null, null, $config
     $doc = new DOMDocument('1.0', 'UTF-8');
     $doc->appendChild($doc->importNode($xpath->query('//oai:metadata/*[1]')->item(0), true));
     $doc->save($filename);
-    print '.';
+    if (array_key_exists($config, 'verbose')) {
+        print "Saving " . $record->header->identifier . "\n";
+    } else {
+        print '.';
+    }
 }
