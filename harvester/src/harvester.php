@@ -69,7 +69,7 @@ $client = new Client($config['oai_url'], $guzzleAdapter);
 $harvester = new Endpoint($client);
 // $path = Path::join(__DIR__ , $config['target_dir']);
 $path = $config['target_dir'];
-print "Saving to " . $path . "\n";
+print "Saving Set '" . $config['set'] ."', metadat prefix '" . $config['metadata_prefix'] . "' from " . $config['oai_url'] . " to " . $path . "\n";
 
 foreach ($harvester->listRecords($config['metadata_prefix'], null, null, $config['set']) as $record) {
     $filename = Path::join($path, $record->header->identifier . '.xml');
@@ -80,7 +80,7 @@ foreach ($harvester->listRecords($config['metadata_prefix'], null, null, $config
     $doc = new DOMDocument('1.0', 'UTF-8');
     $doc->appendChild($doc->importNode($xpath->query('//oai:metadata/*[1]')->item(0), true));
     $doc->save($filename);
-    if (array_key_exists($config, 'verbose')) {
+    if (array_key_exists('verbose', $config)) {
         print "Saving " . $record->header->identifier . "\n";
     } else {
         print '.';
