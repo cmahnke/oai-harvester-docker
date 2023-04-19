@@ -9,6 +9,25 @@ on:
       - main
 
 jobs:
+  lint_harvester:
+    name: Lint PHP code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3.5.2
+        with:
+          submodules: true
+          fetch-depth: 0
+      - name: Run Composer
+        uses: php-actions/composer@v6
+        with:
+          php_version: "latest"
+      - name: Run linter
+        uses: php-actions/composer@v6
+        with:
+          php_version: "latest"
+          command: "run lint"
+
   build_harvester:
     name: Push to GitHub Packages
     runs-on: ubuntu-latest

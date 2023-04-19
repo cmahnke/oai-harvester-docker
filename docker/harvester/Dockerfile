@@ -26,7 +26,7 @@ RUN --mount=target=/mnt/build-context \
 # Copy files
     cp -r /mnt/build-context/* . && \
     cd harvester && \
-    COMPOSER_ALLOW_SUPERUSER=1 php /usr/local/bin/composer install && \
+    COMPOSER_ALLOW_SUPERUSER=1 php /usr/local/bin/composer install --no-dev --no-scripts --no-interaction && \
     cd .. && \
     mv harvester $HARVESTER_HOME && \
      cp docker/harvester/entrypoint.d/entrypoint.sh / && \

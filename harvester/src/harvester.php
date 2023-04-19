@@ -1,4 +1,12 @@
 <?php
+/**
+ * A simmple CLI OAI PHM Harvester
+ *
+ * @author    Christian Mahnke <cmahnke@gmail.com>
+ * @copyright 2023-2023 Christian Mahnke
+ * @license   https://www.gnu.org/licenses/agpl-3.0.html GNU Affero General Public License
+ * @link      https://github.com/cmahnke/oai-harvester-docker
+ */
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -8,6 +16,7 @@ use GuzzleHttp\HandlerStack;
 use webignition\Guzzle\Middleware\HttpAuthentication\AuthorizationType;
 use webignition\Guzzle\Middleware\HttpAuthentication\AuthorizationHeader;
 use webignition\Guzzle\Middleware\HttpAuthentication\CredentialsFactory;
+use webignition\Guzzle\Middleware\HttpAuthentication\HostComparer;
 use webignition\Guzzle\Middleware\HttpAuthentication\HttpAuthenticationMiddleware;
 use Symfony\Component\Yaml\Yaml;
 use Phpoaipmh\Client;
@@ -19,9 +28,17 @@ $config = Yaml::parseFile(__DIR__ . '/../config.yaml');
 $stack = HandlerStack::create();
 $stack->push(GuzzleRetryMiddleware::factory());
 
-if (trim($config['user']) != '' && trim($config['user']) != '') {
-    $httpAuthenticationMiddleware = new HttpAuthenticationMiddleware();
-    $basicCredentials = CredentialsFactory::createBasicCredentials(trim($config['user']), trim($config['user']));
+if (getenv("OAI_USER")) {
+    $config['user'] = getenv("OAI_USER");
+}
+
+if (getenv("OAI_PASS")) {
+    $config['pass'] = getenv("OAI_PASS");
+}
+
+if (trim($config['user']) != '' && trim($config['pass']) != '') {
+    $httpAuthenticationMiddleware = new HttpAuthenticationMiddleware(new HostComparer());
+    $credentials = CredentialsFactory::createBasicCredentials(trim($config['user']), trim($config['pass']));
     $httpAuthenticationMiddleware->setType(AuthorizationType::BASIC);
     $httpAuthenticationMiddleware->setCredentials($credentials);
     $httpAuthenticationMiddleware->setHost(parse_url($config['oai_url'], PHP_URL_HOST));
@@ -31,22 +48,22 @@ if (trim($config['user']) != '' && trim($config['user']) != '') {
 $guzzleClient = new GuzzleClient(['handler' => $stack]);
 $guzzleAdapter = new \Phpoaipmh\HttpAdapter\GuzzleAdapter($guzzleClient);
 
-#class ErrorReportingClient extends Client {
-#	protected function decodeResponse( $resp ): SimpleXMLElement {
-#		try {
-#			return parent::decodeResponse( $resp );
-#		}
-#		catch ( MalformedResponseException $exception ) {
-#			error_log( 'MalformedResponseException: ' . $resp );
-#			throw $exception;
-#		}
-#	}
-#}
+// class ErrorReportingClient extends Client {
+// protected function decodeResponse( $resp ): SimpleXMLElement {
+// try {
+// return parent::decodeResponse( $resp );
+// }
+// catch ( MalformedResponseException $exception ) {
+// error_log( 'MalformedResponseException: ' . $resp );
+// throw $exception;
+// }
+// }
+// }
 
 $client = new Client($config['oai_url'], $guzzleAdapter);
-#$harvester = new Endpoint(new ErrorReportingClient($config['oai_url'], $guzzleAdapter));
+// $harvester = new Endpoint(new ErrorReportingClient($config['oai_url'], $guzzleAdapter));
 $harvester = new Endpoint($client);
-#$path = Path::join(__DIR__ , $config['target_dir']);
+// $path = Path::join(__DIR__ , $config['target_dir']);
 $path = $config['target_dir'];
 print "Saving to " . $path . "\n";
 
