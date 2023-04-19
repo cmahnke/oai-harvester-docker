@@ -18,6 +18,8 @@ jobs:
         with:
           submodules: true
           fetch-depth: 0
+      - name: Change dir
+        run: cd harvester
       - name: Run Composer
         uses: php-actions/composer@v6
         with:
