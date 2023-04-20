@@ -183,7 +183,7 @@ foreach ($iterator as $record) {
     $doc->appendChild($doc->importNode($xpath->query('//oai:metadata/*[1]')->item(0), true));
     $doc->save($filename);
     if (array_key_exists('verbose', $config)) {
-        print "Saving " . $record->header->identifier . "\n";
+        print "Saving " . $record->header->identifier . " to " . $filename . "\n";
     } else {
         print '.';
     }
