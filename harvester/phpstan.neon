@@ -1,0 +1,9 @@
+#includes:
+#  - rules.neon
+
+parameters:
+  level: 6
+  paths:
+    - src
+#  ignoreErrors:
+#    - checkGenericClassInNonGenericObjectType: false 

@@ -41,14 +41,15 @@ See table below for possible values.
 
 ## Configuration file
 
-| Name            | Value                                                              |
-|-----------------|--------------------------------------------------------------------|
-| oai_url         | URL of the OAI PMH endpoint of a repository                        |
-| metadata_prefix | The matadata prefix (format) to use                                |
-| set             | The requested metadata set                                         |
-| target_dir      | The direcory inside the container to save files to, can be mounted |
-| user            | Username for authentification                                      |
-| pass            | Password for authentification                                      |
+| Name            | Value                                                                                        |
+|-----------------|----------------------------------------------------------------------------------------------|
+| oai_url         | URL of the OAI PMH endpoint of a repository                                                  |
+| metadata_prefix | The matadata prefix (format) to use                                                          |
+| set             | The requested metadata set                                                                   |
+| target_dir      | The direcory inside the container to save files to, can be mounted                           |
+| user            | Username for authentification                                                                |
+| pass            | Password for authentification                                                                |
+| mode            | Chanke to 'ListIdentifiers' if you want to get each Record by listing the identifiers first  |
 
 These configuration settings can also be passed via env in upper case.
 

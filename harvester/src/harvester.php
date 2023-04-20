@@ -23,6 +23,101 @@ use Phpoaipmh\Client;
 use Phpoaipmh\Endpoint;
 use Symfony\Component\Filesystem\Path;
 
+/**
+ * Class ListRecordsByIdentifiers
+ *
+ * @implements \Iterator<\SimpleXMLElement>
+ */
+class ListRecordsByIdentifiers implements Iterator
+{
+    /**
+     * The list of identifiers
+     *
+     * @var array<string> $_array
+     */
+    private array $_array;
+    /**
+     * The OAI PMH endpoint
+     *
+     * @var Endpoint $endpoint
+     */
+    private Endpoint $_endpoint;
+    /**
+     * The metadata prefix
+     *
+     * @var string $_metadataPrefix
+     */
+    private string $_metadataPrefix;
+
+    /**
+     * Constructs a new ListRecordsByIdentifiers
+     * 
+     * @param Endpoint      $endpoint
+     * @param array<string> $identifiers
+     * @param string        $metadataPrefix
+     */
+    public function __construct(Endpoint $endpoint, array $identifiers, string $metadataPrefix = "")
+    {
+        $this->_endpoint = $endpoint;
+        $this->_array = $identifiers;
+        $this->_metadataPrefix = $metadataPrefix;
+    }
+
+    /**
+     * Returns the current Record
+     *
+     * @return \SimpleXMLElement An XML document corresponding to the record
+     */
+    public function current() : \SimpleXMLElement
+    {
+        $id = current($this->_array);
+        return $this->_endpoint->getRecord($id, $this->_metadataPrefix);
+    }
+    /**
+     * Move forward to next record
+     *
+     * @return void
+     */
+    #[\ReturnTypeWillChange]
+    public function next()
+    {
+        next($this->_array);
+    }
+
+    /**
+     * Rewind the Iterator to the first record
+     *
+     *  @return void
+     */    
+    #[\ReturnTypeWillChange]
+    public function rewind()
+    {
+        reset($this->_array);
+    }
+
+    /**
+     * Return the key (identifier) of the current record
+     *
+     * @return string
+     */
+    #[\ReturnTypeWillChange]
+    public function key()
+    {
+        return current($this->_array);
+    }
+   
+    /**
+     * Checks if current position is valid
+     *
+     * @return bool
+     */
+    #[\ReturnTypeWillChange]
+    public function valid()
+    {
+        return $this->key() !== null;
+    }
+}
+
 $config = Yaml::parseFile(__DIR__ . '/../config.yaml');
 
 $stack = HandlerStack::create();
@@ -69,9 +164,16 @@ $client = new Client($config['oai_url'], $guzzleAdapter);
 $harvester = new Endpoint($client);
 // $path = Path::join(__DIR__ , $config['target_dir']);
 $path = $config['target_dir'];
-print "Saving Set '" . $config['set'] ."', metadat prefix '" . $config['metadata_prefix'] . "' from " . $config['oai_url'] . " to " . $path . "\n";
+print "Saving Set '" . $config['set'] ."', metadata prefix '" . $config['metadata_prefix'] . "' from " . $config['oai_url'] . " to " . $path . "\n";
 
-foreach ($harvester->listRecords($config['metadata_prefix'], null, null, $config['set']) as $record) {
+if (strtolower($config['mode']) === strtolower('ListIdentifiers')) {
+    $identifiers = iterator_to_array($harvester->listIdentifiers($config['metadata_prefix'], null, null, $config['set']));
+    $iterator = new ListRecordsByIdentifiers($harvester, $identifiers);
+} else {
+    $iterator = $harvester->listRecords($config['metadata_prefix'], null, null, $config['set']);
+}
+
+foreach ($iterator as $record) {
     $filename = Path::join($path, $record->header->identifier . '.xml');
     $domrecord = new DOMDocument('1.0', 'UTF-8');
     $domrecord->loadXML($record->asXML());
