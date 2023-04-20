@@ -49,7 +49,7 @@ See table below for possible values.
 | target_dir      | The direcory inside the container to save files to, can be mounted                           |
 | user            | Username for authentification                                                                |
 | pass            | Password for authentification                                                                |
-| mode            | Chanke to 'ListIdentifiers' if you want to get each Record by listing the identifiers first  |
+| mode            | Change to 'ListIdentifiers' if you want to get each Record by listing the identifiers first  |
 
 These configuration settings can also be passed via env in upper case.
 

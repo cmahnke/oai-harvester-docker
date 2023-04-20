@@ -166,7 +166,7 @@ $harvester = new Endpoint($client);
 $path = $config['target_dir'];
 print "Saving Set '" . $config['set'] ."', metadata prefix '" . $config['metadata_prefix'] . "' from " . $config['oai_url'] . " to " . $path . "\n";
 
-if (strtolower($config['mode']) === strtolower('ListIdentifiers')) {
+if ($config['mode'] && strtolower($config['mode']) === strtolower('ListIdentifiers')) {
     $identifiers = iterator_to_array($harvester->listIdentifiers($config['metadata_prefix'], null, null, $config['set']));
     $iterator = new ListRecordsByIdentifiers($harvester, $identifiers);
 } else {
