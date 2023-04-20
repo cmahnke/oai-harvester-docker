@@ -135,7 +135,7 @@ if (getenv("VERBOSE")) {
     $config['verbose'] = getenv("VERBOSE");
 }
 
-if (trim($config['user']) != '' && trim($config['pass']) != '') {
+if (array_key_exists('user', $config) && trim($config['user']) != '' && array_key_exists('pass', $config) && trim($config['pass']) != '') {
     $httpAuthenticationMiddleware = new HttpAuthenticationMiddleware(new HostComparer());
     $credentials = CredentialsFactory::createBasicCredentials(trim($config['user']), trim($config['pass']));
     $httpAuthenticationMiddleware->setType(AuthorizationType::BASIC);
@@ -166,7 +166,7 @@ $harvester = new Endpoint($client);
 $path = $config['target_dir'];
 print "Saving Set '" . $config['set'] ."', metadata prefix '" . $config['metadata_prefix'] . "' from " . $config['oai_url'] . " to " . $path . "\n";
 
-if ($config['mode'] && strtolower($config['mode']) === strtolower('ListIdentifiers')) {
+if (array_key_exists('mode', $config) && $config['mode'] && strtolower($config['mode']) === strtolower('ListIdentifiers')) {
     $identifiers = iterator_to_array($harvester->listIdentifiers($config['metadata_prefix'], null, null, $config['set']));
     $iterator = new ListRecordsByIdentifiers($harvester, $identifiers);
 } else {
