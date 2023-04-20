@@ -29,6 +29,8 @@ Just edit the file `harvester/config.yaml` and mount it readonly for the run. Al
 docker run -it --mount type=bind,source="$(pwd)"/data,target=/data --mount type=bind,source="$(pwd)"/harvester/config.yaml,target=/opt/harvester/config.yaml,readonly ghcr.io/cmahnke/oai-harvester-docker/harvester
 ```
 
+Makes sure to change the `/data` mount target to the path in your `config.yaml` and that the local directory exits.
+
 ### With enviroment vars
 
 Pass configuration via environment, also make sure too provide a data directory:
