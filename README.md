@@ -26,7 +26,7 @@ docker buildx build -f docker/converter/Dockerfile .
 Just edit the file `harvester/config.yaml` and mount it readonly for the run. Also provide a data directory:
 
 ```
-docker run -it --mount type=bind,source="$(pwd)"/data,target=/data --mount type=bind,source="$(pwd)"/harvester/config.yaml,target=/opt/harvester/config.yaml,readonly 
+docker run -it --mount type=bind,source="$(pwd)"/data,target=/data --mount type=bind,source="$(pwd)"/harvester/config.yaml,target=/opt/harvester/config.yaml,readonly ghcr.io/cmahnke/oai-harvester-docker/harvester
 ```
 
 ### With enviroment vars
