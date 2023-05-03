@@ -9,14 +9,6 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-  - package-ecosystem: "maven"
-    directory: "/"
-    schedule:
-      interval: "daily"
-  - package-ecosystem: "npm"
-    directory: "/services/web/viewer"
-    schedule:
-      interval: "daily"
   - package-ecosystem: "composer"
     directory: "/coins/cache-warmer/harvester"
     schedule:
