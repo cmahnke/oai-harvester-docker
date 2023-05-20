@@ -6,7 +6,7 @@ LABEL maintainer="cmahnke@gmail.com"
 LABEL org.opencontainers.image.source=https://github.com/cmahnke/oai-harvester-docker
 
 ENV REQ_BUILD="" \
-    REQ_RUN="busybox sed" \
+    REQ_RUN="busybox sed bash" \
     BUILD_DIR="/tmp/build" \
     DATA_DIR="/data" \
     HARVESTER_HOME=/opt/harvester

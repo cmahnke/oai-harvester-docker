@@ -6,7 +6,7 @@ LABEL maintainer="cmahnke@gmail.com"
 LABEL org.opencontainers.image.source=https://github.com/cmahnke/oai-harvester-docker
 
 ENV REQ_BUILD="gettext" \
-    REQ_RUN="openjdk17-jre jq sed curl" \
+    REQ_RUN="openjdk17-jre jq sed curl bash" \
     SAXON_URL="https://repo1.maven.org/maven2/net/sf/saxon/Saxon-HE/12.1/Saxon-HE-12.1.jar" \
     RESOLVER_URL="https://repo1.maven.org/maven2/org/xmlresolver/xmlresolver/5.1.2/xmlresolver-5.1.2.jar" \
     SAXON_DIR="/opt/saxon" \

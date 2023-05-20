@@ -1,6 +1,9 @@
 #!/bin/sh
 
-if [ -n "$@" ] ; then
+echo "Starting Converter container"
+
+if [ $# -ne 0 ] ; then
+    echo "Running provided command '$@'"
     $@
     exit 0
 fi

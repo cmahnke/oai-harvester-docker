@@ -1,7 +1,11 @@
 #!/bin/sh
+
+echo "Starting Harvester container"
+
 HARVESTER_CONF=$HARVESTER_HOME/config.yaml
 
-if [ -n "$@" ] ; then
+if [ $# -ne 0 ] ; then
+    echo "Running provided command '$@'"
     $@
     exit 0
 fi

@@ -135,6 +135,10 @@ if (getenv("VERBOSE")) {
     $config['verbose'] = getenv("VERBOSE");
 }
 
+if ($config['oai_url'] === null || $config['oai_url'] === '') {
+    exit("No URL given!\n");
+}
+
 if (array_key_exists('user', $config) && trim($config['user']) != '' && array_key_exists('pass', $config) && trim($config['pass']) != '') {
     $httpAuthenticationMiddleware = new HttpAuthenticationMiddleware(new HostComparer());
     $credentials = CredentialsFactory::createBasicCredentials(trim($config['user']), trim($config['pass']));
