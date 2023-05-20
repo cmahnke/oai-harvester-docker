@@ -30,7 +30,8 @@ RUN --mount=target=/mnt/build-context \
     cp /mnt/build-context/docker/converter/scripts/cleanup.sh /usr/local/sbin/ && \
     envsubst < /mnt/build-context/docker/converter/scripts/cleanup.sh > /usr/local/sbin/cleanup.sh && \
     echo 'apk del $REQ_RUN $REQ_BUILD' >> /usr/local/sbin/cleanup.sh && \
-# Copy entrypoint
+# Copy entrypoints
+    cp /mnt/build-context/docker/harvester/entrypoint.d/entrypoint.sh /entrypoint-harvester.sh && \
     cp /mnt/build-context/docker/converter/entrypoint.d/entrypoint.sh / && \
 # Cleanup
     rm -rf /usr/local/bin/composer $BUILD_DIR /root/.composer && \

@@ -1,11 +1,11 @@
 #!/bin/sh
 
-echo "Starting Harvester container"
+echo "Starting Harvester container" 1>&2
 
 HARVESTER_CONF=$HARVESTER_HOME/config.yaml
 
 if [ $# -ne 0 ] ; then
-    echo "Running provided command '$@'"
+    echo "Running provided command '$@'" 1>&2
     $@
     exit 0
 fi
@@ -41,7 +41,7 @@ if [ -w  "$HARVESTER_CONF" ] ; then
         sed -i "s/pass: .*/pass: $PASS_ESCAPED/g" "$HARVESTER_CONF"
     fi
 else
-    echo "$HARVESTER_CONF isn't writeable, might be mounted"
+    echo "$HARVESTER_CONF isn't writeable, might be mounted" 1>&2
 fi
 
 cd $HARVESTER_HOME
