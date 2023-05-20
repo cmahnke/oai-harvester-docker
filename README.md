@@ -54,8 +54,10 @@ docker run -e OAI_USER=$OAI_USER -e OAI_PASS=$OAI_PASS --mount type=bind,source=
 If a file `/opt/xslt/dafault.xsl` is provided, the container will use it to transform data.
 
 ```
-docker run -it --mount type=bind,source="$(pwd)"/conf/config.yaml,target=/opt/harvester/config.yaml,readonly --mount type=bind,source="$(pwd)"/data,target=/data --mount type=bind,source="$(pwd)"/xslt/stylesheet.xsl,target=/opt/xslt/default.xsl ghcr.io/cmahnke/oai-harvester-docker/converter
+docker run -i --mount type=bind,source="$(pwd)"/conf/config.yaml,target=/opt/harvester/config.yaml,readonly --mount type=bind,source="$(pwd)"/data,target=/data --mount type=bind,source="$(pwd)"/xslt/stylesheet.xsl,target=/opt/xslt/default.xsl ghcr.io/cmahnke/oai-harvester-docker/converter
 ```
+
+Make sure to ommit `-t` to seperate `stderr` and `stdout`. This way one can pipe the results directly into a file or another command for post precessing. For example `jq -r  '.[] | .link'`, to extract the array of results and then the property `link` as a raw string.
 
 ## Configuration file
 
