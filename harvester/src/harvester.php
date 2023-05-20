@@ -168,7 +168,7 @@ $client = new Client($config['oai_url'], $guzzleAdapter);
 $harvester = new Endpoint($client);
 // $path = Path::join(__DIR__ , $config['target_dir']);
 $path = $config['target_dir'];
-print "Saving Set '" . $config['set'] ."', metadata prefix '" . $config['metadata_prefix'] . "' from " . $config['oai_url'] . " to " . $path . "\n";
+fwrite(STDERR, "Saving Set '" . $config['set'] ."', metadata prefix '" . $config['metadata_prefix'] . "' from " . $config['oai_url'] . " to " . $path . "\n");
 
 if (array_key_exists('mode', $config) && $config['mode'] && strtolower($config['mode']) === strtolower('ListIdentifiers')) {
     $identifiers = iterator_to_array($harvester->listIdentifiers($config['metadata_prefix'], null, null, $config['set']));
@@ -187,8 +187,8 @@ foreach ($iterator as $record) {
     $doc->appendChild($doc->importNode($xpath->query('//oai:metadata/*[1]')->item(0), true));
     $doc->save($filename);
     if (array_key_exists('verbose', $config)) {
-        print "Saving " . $record->header->identifier . " to " . $filename . "\n";
+        fwrite(STDERR, "Saving " . $record->header->identifier . " to " . $filename . "\n");
     } else {
-        print '.';
+        fwrite(STDERR, '.');
     }
 }
