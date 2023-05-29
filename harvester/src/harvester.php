@@ -135,7 +135,11 @@ if (getenv("VERBOSE")) {
     $config['verbose'] = getenv("VERBOSE");
 }
 
-if ($config['oai_url'] === null && $config['oai_url'] === '') {
+if (getenv("OAI_URL")) {
+    $config['oai_url'] = getenv("OAI_URL");
+}
+
+if ($config['oai_url'] === null) {
     exit("No URL given!\n");
 }
 
