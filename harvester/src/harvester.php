@@ -140,7 +140,8 @@ if (getenv("OAI_URL")) {
 }
 
 if ($config['oai_url'] === null) {
-    exit("No URL given!\n");
+    fwrite(STDERR, "No URL given!\n");
+    exit(1);
 }
 
 if (array_key_exists('user', $config) && trim($config['user']) != '' && array_key_exists('pass', $config) && trim($config['pass']) != '') {
