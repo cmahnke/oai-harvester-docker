@@ -2,3 +2,4 @@ vendor
 harvester/vendor
 composer.phar
 data
+.DS_Store

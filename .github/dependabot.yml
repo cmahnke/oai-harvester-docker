@@ -10,6 +10,6 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "composer"
-    directory: "/coins/cache-warmer/harvester"
+    directory: "/harvester"
     schedule:
       interval: "daily"
