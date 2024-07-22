@@ -5,11 +5,23 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    groups:
+      docker:
+        patterns:
+        - '*'
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
       interval: "daily"
+    groups:
+      docker:
+        patterns:
+        - '*'
   - package-ecosystem: "composer"
     directory: "/harvester"
     schedule:
       interval: "daily"
+    groups:
+      docker:
+        patterns:
+        - '*'
