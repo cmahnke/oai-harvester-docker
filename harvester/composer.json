@@ -9,7 +9,7 @@
         "webignition/guzzle-http-authentication-middleware": "^0.5.0"
     },
     "require-dev": {
-        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan": "^2.0",
         "squizlabs/php_codesniffer": "*"
     },
     "scripts": {
