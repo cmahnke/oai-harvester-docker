@@ -1,11 +1,11 @@
 {
     "require": {
         "caseyamcl/phpoaipmh": "^3",
-        "symfony/yaml": "^7.2",
+        "symfony/yaml": "^8.0",
         "caseyamcl/guzzle_retry_middleware": "^2.7",
         "guzzlehttp/guzzle":   "^6",
         "ricardofiorani/guzzle-psr18-adapter": "^1.0",
-        "symfony/filesystem": "^7.2",
+        "symfony/filesystem": "^8.0",
         "webignition/guzzle-http-authentication-middleware": "^0.5.0"
     },
     "require-dev": {
